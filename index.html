@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florynx AI - Financial Intelligence Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --liquid-highlight: rgba(255, 255, 255, 0.4);
+            --deep-shadow: rgba(0, 0, 0, 0.3);
+            --accent-cyan: #00d2ff;
+            --accent-purple: #764ba2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Liquid Glass Base Styles */
+        .liquid-glass {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.25);
+            box-shadow: 
+                0 8px 32px rgba(31, 38, 135, 0.2),
+                inset 0 4px 20px rgba(255,255,255,0.2),
+                inset 0 -2px 10px rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .liquid-glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.7s;
+            pointer-events: none;
+        }
+
+        .liquid-glass:hover::before {
+            left: 100%;
+        }
+
+        /* Liquid Shine Effect */
+        .liquid-glass::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        /* Dark Mode Glass */
+        .liquid-glass-dark {
+            background: linear-gradient(135deg, rgba(20,20,30,0.8) 0%, rgba(10,10,15,0.9) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 
+                0 8px 32px rgba(0,0,0,0.4),
+                inset 0 2px 10px rgba(255,255,255,0.05);
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+
+        @keyframes float-reverse {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(20px) rotate(-2deg); }
+        }
+
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .animate-float-reverse {
+            animation: float-reverse 7s ease-in-out infinite;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-cyan {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Glow Effects */
+        .glow-cyan {
+            box-shadow: 0 0 40px rgba(0,210,255,0.3);
+        }
+
+        .glow-purple {
+            box-shadow: 0 0 40px rgba(118,75,162,0.3);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 4px;
+        }
+
+        /* Button Liquid Effect */
+        .btn-liquid {
+            position: relative;
+            overflow: hidden;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-liquid::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-liquid:hover::before {
+            left: 100%;
+        }
+
+        .btn-liquid:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(102,126,234,0.4);
+        }
+
+        /* Pulse Animation for Live Elements */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0,210,255,0.4); }
+            50% { box-shadow: 0 0 40px rgba(0,210,255,0.8); }
+        }
+
+        .pulse-live {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* Transaction Stream Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .transaction-item {
+            animation: slideIn 0.5s ease-out forwards;
+        }
+
+        /* Navigation Active State */
+        .nav-active {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Card Hover Effects */
+        .glass-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 
+                0 20px 60px rgba(31, 38, 135, 0.3),
+                inset 0 4px 20px rgba(255,255,255,0.25);
+        }
+
+        /* Page Transitions */
+        .page-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .page-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Risk Indicator Colors */
+        .risk-low { color: #10b981; }
+        .risk-medium { color: #f59e0b; }
+        .risk-high { color: #ef4444; }
+
+        /* Liquid Border Radius Utilities */
+        .radius-liquid {
+            border-radius: 2rem;
+        }
+
+        .radius-liquid-lg {
+            border-radius: 3rem;
+        }
+
+        .radius-liquid-xl {
+            border-radius: 4rem;
+        }
+
+        /* Smooth reveal for elements */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger delays */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+        .delay-400 { transition-delay: 0.4s; }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Form Styles */
+        .form-input {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 1rem;
+            padding: 1rem 1.25rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(0,210,255,0.5);
+            box-shadow: 0 0 20px rgba(0,210,255,0.2);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Stat Counter Animation */
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .stat-animate {
+            animation: countUp 0.6s ease-out forwards;
+        }
+
+        /* Risk Score Circle */
+        .risk-circle {
+            position: relative;
+        }
+
+        .risk-circle::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #10b981, #f59e0b, #ef4444);
+            z-index: -1;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.9);
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="antialiased">
+
+    <!-- Three.js Background Canvas -->
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-4 md:px-6 py-4">
+        <div class="max-w-7xl mx-auto liquid-glass radius-liquid px-4 md:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center pulse-live">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <span class="font-display font-bold text-xl tracking-tight">Florynx<span class="gradient-text-cyan"> AI</span></span>
+            </div>
+
+            <!-- Desktop Navigation -->
+            <div class="hidden lg:flex items-center space-x-1">
+                <a href="#home" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Home</a>
+                <a href="#platform" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Platform</a>
+                <a href="#solutions" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Solutions</a>
+                <a href="#technology" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Technology</a>
+                <a href="#security" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Security</a>
+                <a href="#insights" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Insights</a>
+                <a href="#pricing" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Pricing</a>
+                <a href="#company" class="px-4 py-2 rounded-full hover:bg-white/10 transition-all text-sm font-medium">Company</a>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <a href="#contact" class="hidden md:inline-flex btn-liquid liquid-glass px-6 py-2.5 rounded-full text-sm font-semibold hover:bg-white/20 transition-all">
+                    Get Started
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden liquid-glass p-2 rounded-full" aria-label="Open menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu fixed inset-y-0 right-0 w-80 max-w-full liquid-glass-dark z-50 p-6 lg:hidden">
+            <div class="flex justify-between items-center mb-8">
+                <span class="font-display font-bold text-xl">Menu</span>
+                <button id="close-menu-btn" class="liquid-glass p-2 rounded-full" aria-label="Close menu">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="flex flex-col space-y-4">
+                <a href="#home" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Home</a>
+                <a href="#platform" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Platform</a>
+                <a href="#solutions" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Solutions</a>
+                <a href="#technology" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Technology</a>
+                <a href="#security" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Security</a>
+                <a href="#insights" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Insights</a>
+                <a href="#pricing" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Pricing</a>
+                <a href="#company" class="mobile-nav-link px-4 py-3 rounded-xl hover:bg-white/10 transition-all">Company</a>
+                <a href="#contact" class="btn-liquid liquid-glass px-6 py-3 rounded-full text-center font-semibold mt-4">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="min-h-screen relative flex items-center pt-24 pb-16 px-4 md:px-6 overflow-hidden">
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+            <!-- Left Content -->
+            <div class="space-y-8 reveal active">
+                <div class="inline-flex items-center space-x-2 liquid-glass px-4 py-2 rounded-full text-sm">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="text-gray-300">AI-Powered Financial Intelligence</span>
+                </div>
+
+                <h1 class="font-display text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight">
+                    AI That Sees<br>
+                    <span class="gradient-text">What Others Miss</span>
+                </h1>
+
+                <p class="text-lg md:text-xl text-gray-400 max-w-lg leading-relaxed">
+                    Florynx AI monitors financial transactions in real-time, detects subtle fraud patterns before damage occurs, and learns the unique behavioral fingerprints of your business.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#contact" class="btn-liquid liquid-glass px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg glow-cyan inline-flex items-center space-x-2">
+                        <span>Request Demo</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <button onclick="simulateDemo()" class="liquid-glass-dark px-6 md:px-8 py-3 md:py-4 rounded-full font-semibold text-base md:text-lg hover:bg-white/10 transition-all inline-flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span>Live Simulation</span>
+                    </button>
+                </div>
+
+                <!-- Trust Badges -->
+                <div class="pt-8 border-t border-white/10">
+                    <p class="text-sm text-gray-500 mb-4">Trusted by enterprise leaders worldwide</p>
+                    <div class="flex flex-wrap items-center gap-4 md:gap-8 opacity-60">
+                        <div class="h-8 w-20 md:w-24 bg-white/20 rounded-lg flex items-center justify-center text-xs font-medium">VISA</div>
+                        <div class="h-8 w-16 md:w-20 bg-white/20 rounded-lg flex items-center justify-center text-xs font-medium">SWIFT</div>
+                        <div class="h-8 w-24 md:w-28 bg-white/20 rounded-lg flex items-center justify-center text-xs font-medium">MASTERCARD</div>
+                        <div class="h-8 w-16 md:w-20 bg-white/20 rounded-lg flex items-center justify-center text-xs font-medium">STRIPE</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Content - Live Demo Simulation -->
+            <div class="relative">
+                <div class="liquid-glass radius-liquid-lg p-4 md:p-6 animate-float">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                            <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                        </div>
+                        <span class="text-xs text-gray-400 font-mono">LIVE MONITOR</span>
+                    </div>
+
+                    <!-- Transaction Stream -->
+                    <div id="transaction-stream" class="space-y-3 max-h-80 md:max-h-96 overflow-hidden">
+                        <!-- Transactions will be injected here by JS -->
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                        <div class="text-sm text-gray-400">
+                            <span class="text-green-400 font-bold" id="safe-count">1,247</span> Safe • 
+                            <span class="text-red-400 font-bold" id="flagged-count">3</span> Flagged
+                        </div>
+                        <div class="flex items-center space-x-2 text-xs text-cyan-400">
+                            <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
+                            <span>Real-time Analysis Active</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating Stats Cards -->
+                <div class="absolute -bottom-4 md:-bottom-8 -left-4 md:-left-8 liquid-glass radius-liquid p-3 md:p-4 animate-float-reverse">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xl md:text-2xl font-bold">99.7%</p>
+                            <p class="text-xs text-gray-400">Accuracy Rate</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="absolute -top-4 md:-top-8 -right-4 md:-right-8 liquid-glass radius-liquid p-3 md:p-4 animate-float" style="animation-delay: 1s;">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xl md:text-2xl font-bold">&lt;50ms</p>
+                            <p class="text-xs text-gray-400">Detection Speed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLATFORM SECTION -->
+    <section id="platform" class="py-16 md:py-24 px-4 md:px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">The <span class="gradient-text-cyan">Florynx AI</span> Engine</h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">A comprehensive intelligence system that learns, adapts, and protects your financial infrastructure in real-time.</p>
+            </div>
+
+            <!-- How It Works Flow -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
+                <div class="liquid-glass radius-liquid p-5 md:p-6 glass-card reveal">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center mb-4 text-xl md:text-2xl font-bold">1</div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-2">Data Ingestion</h3>
+                    <p class="text-gray-400 text-sm">Real-time streams from bank APIs, payment systems, and ERP integrations.</p>
+                </div>
+
+                <div class="liquid-glass radius-liquid p-5 md:p-6 glass-card reveal delay-100">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4 text-xl md:text-2xl font-bold">2</div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-2">Pattern Learning</h3>
+                    <p class="text-gray-400 text-sm">AI builds dynamic behavioral fingerprints for every account and entity.</p>
+                </div>
+
+                <div class="liquid-glass radius-liquid p-5 md:p-6 glass-card reveal delay-200">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center mb-4 text-xl md:text-2xl font-bold">3</div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-2">Anomaly Detection</h3>
+                    <p class="text-gray-400 text-sm">Isolation Forest, Autoencoders, and Graph Intelligence identify threats.</p>
+                </div>
+
+                <div class="liquid-glass radius-liquid p-5 md:p-6 glass-card reveal delay-300">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-green-500 to-emerald-400 flex items-center justify-center mb-4 text-xl md:text-2xl font-bold">4</div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-2">Instant Alerts</h3>
+                    <p class="text-gray-400 text-sm">Risk-scored notifications with explainable AI insights delivered instantly.</p>
+                </div>
+            </div>
+
+            <!-- Core Components Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <!-- Anomaly Detection -->
+                <div class="liquid-glass radius-liquid-lg p-6 md:p-8 glass-card reveal">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-red-500/20 to-orange-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Anomaly Detection</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Isolation Forest algorithms</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Deep learning Autoencoders</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Statistical Z-score analysis</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Behavioral Learning -->
+                <div class="liquid-glass radius-liquid-lg p-6 md:p-8 glass-card reveal delay-100">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Behavioral Learning</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Transaction size patterns</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Frequency analysis</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Time-based activity profiles</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Graph Intelligence -->
+                <div class="liquid-glass radius-liquid-lg p-6 md:p-8 glass-card reveal delay-200 md:col-span-2 lg:col-span-1">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-green-500/20 flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 md:w-8 md:h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Graph Intelligence</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Network relationship mapping</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Hidden connection detection</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <svg class="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Money flow loop identification</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOLUTIONS SECTION -->
+    <section id="solutions" class="py-16 md:py-24 px-4 md:px-6 relative ">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Industry <span class="gradient-text">Solutions</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Tailored protection for every sector of the financial ecosystem.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+                <!-- Banking -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal group">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center">
+                            <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"/>
+                            </svg>
+                        </div>
+                        <span class="liquid-glass px-3 py-1 rounded-full text-xs font-semibold">Enterprise</span>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Banks & Financial Institutions</h3>
+                    <p class="text-gray-400 mb-6">Detect sophisticated fraud rings, money laundering patterns, and account takeover attempts across millions of transactions.</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                            <span class="text-gray-300">Real-time wire fraud detection</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <span class="text-gray-300">AML compliance automation</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                            <span class="text-gray-300">Cross-border transaction monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SMEs -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal delay-100 group">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-green-600 to-emerald-400 flex items-center justify-center">
+                            <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                            </svg>
+                        </div>
+                        <span class="liquid-glass px-3 py-1 rounded-full text-xs font-semibold">Growth</span>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Small & Medium Businesses</h3>
+                    <p class="text-gray-400 mb-6">Protect against invoice fraud, employee theft, and vendor scams with enterprise-grade AI at startup-friendly pricing.</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                            <span class="text-gray-300">Invoice anomaly detection</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <span class="text-gray-300">Expense pattern analysis</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                            <span class="text-gray-300">Vendor verification systems</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fintech -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal delay-200 group">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-400 flex items-center justify-center">
+                            <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="liquid-glass px-3 py-1 rounded-full text-xs font-semibold">Scale</span>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Fintech Companies</h3>
+                    <p class="text-gray-400 mb-6">Embed Florynx AI into your payment flows, lending decisions, and crypto transactions for instant risk assessment.</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                            <span class="text-gray-300">Payment fraud prevention</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <span class="text-gray-300">Credit risk scoring</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                            <span class="text-gray-300">Crypto transaction monitoring</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Government -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal delay-300 group">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-400 flex items-center justify-center">
+                            <svg class="w-7 h-7 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/>
+                            </svg>
+                        </div>
+                        <span class="liquid-glass px-3 py-1 rounded-full text-xs font-semibold">Sovereign</span>
+                    </div>
+                    <h3 class="font-display text-xl md:text-2xl font-semibold mb-3">Government & Public Sector</h3>
+                    <p class="text-gray-400 mb-6">National-level financial defense infrastructure for tax fraud detection, benefit fraud prevention, and economic crime investigation.</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-red-400 rounded-full"></div>
+                            <span class="text-gray-300">Tax evasion pattern detection</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                            <span class="text-gray-300">Benefit fraud networks</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-sm">
+                            <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                            <span class="text-gray-300">Cross-agency intelligence sharing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNOLOGY SECTION -->
+    <section id="technology" class="py-16 md:py-24 px-4 md:px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Technology <span class="gradient-text-cyan">Stack</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Built for scale, designed for intelligence, secured by design.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
+                <div class="space-y-4 md:space-y-6 reveal">
+                    <div class="liquid-glass radius-liquid p-5 md:p-6 border-l-4 border-cyan-400">
+                        <h3 class="font-display text-lg md:text-xl font-semibold mb-2 flex items-center space-x-2">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <span>AI/ML Architecture</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm">Python-based FastAPI backend with TensorFlow and PyTorch models. Scikit-learn for statistical anomaly detection. Real-time inference with sub-50ms latency.</p>
+                    </div>
+
+                    <div class="liquid-glass radius-liquid p-5 md:p-6 border-l-4 border-purple-400">
+                        <h3 class="font-display text-lg md:text-xl font-semibold mb-2 flex items-center space-x-2">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                            <span>Graph Database</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm">Neo4j for relationship mapping. NetworkX for graph algorithms. Real-time detection of circular trading, layering, and integration patterns.</p>
+                    </div>
+
+                    <div class="liquid-glass radius-liquid p-5 md:p-6 border-l-4 border-green-400">
+                        <h3 class="font-display text-lg md:text-xl font-semibold mb-2 flex items-center space-x-2">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span>Stream Processing</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm">Apache Kafka for event streaming. Redis for real-time caching. PostgreSQL for structured data persistence. ClickHouse for analytics.</p>
+                    </div>
+
+                    <div class="liquid-glass radius-liquid p-5 md:p-6 border-l-4 border-red-400">
+                        <h3 class="font-display text-lg md:text-xl font-semibold mb-2 flex items-center space-x-2">
+                            <svg class="w-5 h-5 md:w-6 md:h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                            <span>Security Layer</span>
+                        </h3>
+                        <p class="text-gray-400 text-sm">AES-256 encryption at rest. TLS 1.3 in transit. Zero Trust Architecture with mTLS. SOC 2 Type II and PCI DSS compliant infrastructure.</p>
+                    </div>
+                </div>
+
+                <div class="relative reveal delay-200">
+                    <div class="liquid-glass radius-liquid-xl p-6 md:p-8 animate-float">
+                        <div class="grid grid-cols-2 gap-3 md:gap-4">
+                            <div class="liquid-glass-dark radius-liquid p-3 md:p-4 text-center">
+                                <div class="text-2xl md:text-3xl font-bold gradient-text-cyan mb-1">10M+</div>
+                                <div class="text-xs text-gray-400">Transactions/sec</div>
+                            </div>
+                            <div class="liquid-glass-dark radius-liquid p-3 md:p-4 text-center">
+                                <div class="text-2xl md:text-3xl font-bold gradient-text mb-1">50ms</div>
+                                <div class="text-xs text-gray-400">Detection Latency</div>
+                            </div>
+                            <div class="liquid-glass-dark radius-liquid p-3 md:p-4 text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-green-400 mb-1">99.9%</div>
+                                <div class="text-xs text-gray-400">Uptime SLA</div>
+                            </div>
+                            <div class="liquid-glass-dark radius-liquid p-3 md:p-4 text-center">
+                                <div class="text-2xl md:text-3xl font-bold text-purple-400 mb-1">256</div>
+                                <div class="text-xs text-gray-400">Bit Encryption</div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 md:mt-6 liquid-glass-dark radius-liquid p-3 md:p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm font-medium">System Load</span>
+                                <span class="text-sm text-cyan-400">Optimal</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div id="system-load-bar" class="bg-gradient-to-r from-cyan-400 to-blue-500 h-2 rounded-full transition-all duration-1000" style="width: 34%"></div>
+                            </div>
+                        </div>
+
+                        <div class="mt-3 md:mt-4 liquid-glass-dark radius-liquid p-3 md:p-4">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-sm font-medium">AI Model Accuracy</span>
+                                <span class="text-sm text-green-400">99.7%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div id="accuracy-bar" class="bg-gradient-to-r from-green-400 to-emerald-500 h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECURITY SECTION -->
+    <section id="security" class="py-16 md:py-24 px-4 md:px-6 relative ">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Enterprise <span class="gradient-text">Security</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Safer than a bank. Protected by military-grade encryption and Zero Trust Architecture.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 text-center glass-card reveal">
+                    <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                        <svg class="w-8 h-8 md:w-10 md:h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-3">Data Encryption</h3>
+                    <p class="text-gray-400 text-sm">AES-256 encryption for data at rest. TLS 1.3 for data in transit. End-to-end encryption for sensitive communications.</p>
+                </div>
+
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 text-center glass-card reveal delay-100">
+                    <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center">
+                        <svg class="w-8 h-8 md:w-10 md:h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-3">Zero Trust</h3>
+                    <p class="text-gray-400 text-sm">No user or system is trusted by default. Continuous verification. Micro-segmentation. Least privilege access controls.</p>
+                </div>
+
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 text-center glass-card reveal delay-200">
+                    <div class="w-16 h-16 md:w-20 md:h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                        <svg class="w-8 h-8 md:w-10 md:h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-display text-lg md:text-xl font-semibold mb-3">Audit & Compliance</h3>
+                    <p class="text-gray-400 text-sm">Immutable audit logs. SOC 2 Type II certified. PCI DSS compliant. GDPR and CCPA ready. Real-time compliance monitoring.</p>
+                </div>
+            </div>
+
+            <div class="liquid-glass radius-liquid-xl p-6 md:p-8 reveal delay-300">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
+                    <div class="space-y-2">
+                        <div class="text-2xl md:text-3xl font-bold text-green-400">SOC 2</div>
+                        <div class="text-xs md:text-sm text-gray-400">Type II Certified</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-2xl md:text-3xl font-bold text-blue-400">PCI DSS</div>
+                        <div class="text-xs md:text-sm text-gray-400">Level 1 Compliant</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-2xl md:text-3xl font-bold text-purple-400">GDPR</div>
+                        <div class="text-xs md:text-sm text-gray-400">Fully Compliant</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-2xl md:text-3xl font-bold text-cyan-400">ISO 27001</div>
+                        <div class="text-xs md:text-sm text-gray-400">Certified</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSIGHTS SECTION -->
+    <section id="insights" class="py-16 md:py-24 px-4 md:px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Insights & <span class="gradient-text-cyan">Resources</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Knowledge hub for financial intelligence, fraud detection, and AI innovation.</p>
+            </div>
+
+            <!-- Featured Articles -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
+                <article class="liquid-glass radius-liquid-xl overflow-hidden glass-card reveal group">
+                    <div class="h-40 md:h-48 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <div class="p-5 md:p-6">
+                        <span class="text-xs text-cyan-400 font-semibold">FRAUD DETECTION</span>
+                        <h3 class="font-display text-lg md:text-xl font-semibold mt-2 mb-3 group-hover:text-cyan-400 transition-colors">How AI Detects Financial Fraud Before It Happens</h3>
+                        <p class="text-gray-400 text-sm mb-4">Learn how machine learning models identify suspicious patterns in real-time transaction streams.</p>
+                        <a href="#" class="text-sm text-cyan-400 hover:text-cyan-300 transition-colors inline-flex items-center space-x-1">
+                            <span>Read Article</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="liquid-glass radius-liquid-xl overflow-hidden glass-card reveal delay-100 group">
+                    <div class="h-40 md:h-48 bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <div class="p-5 md:p-6">
+                        <span class="text-xs text-purple-400 font-semibold">AI IN FINANCE</span>
+                        <h3 class="font-display text-lg md:text-xl font-semibold mt-2 mb-3 group-hover:text-purple-400 transition-colors">The Future of Explainable AI in Financial Services</h3>
+                        <p class="text-gray-400 text-sm mb-4">Understanding why AI makes decisions is critical for compliance and trust in financial systems.</p>
+                        <a href="#" class="text-sm text-purple-400 hover:text-purple-300 transition-colors inline-flex items-center space-x-1">
+                            <span>Read Article</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="liquid-glass radius-liquid-xl overflow-hidden glass-card reveal delay-200 group md:col-span-2 lg:col-span-1">
+                    <div class="h-40 md:h-48 bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                        <svg class="w-16 h-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <div class="p-5 md:p-6">
+                        <span class="text-xs text-green-400 font-semibold">CASE STUDY</span>
+                        <h3 class="font-display text-lg md:text-xl font-semibold mt-2 mb-3 group-hover:text-green-400 transition-colors">How We Saved $2.3M in Fraud Losses for a Regional Bank</h3>
+                        <p class="text-gray-400 text-sm mb-4">A detailed case study on implementing Florynx AI for real-time fraud prevention.</p>
+                        <a href="#" class="text-sm text-green-400 hover:text-green-300 transition-colors inline-flex items-center space-x-1">
+                            <span>Read Case Study</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Guides & Whitepapers -->
+            <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+                <div class="liquid-glass radius-liquid-lg p-6 md:p-8 reveal">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 md:w-7 md:h-7 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-lg md:text-xl font-semibold mb-2">Guide: How to Detect Financial Leaks Early</h3>
+                            <p class="text-gray-400 text-sm mb-4">A comprehensive guide for finance teams on identifying and preventing internal financial leaks.</p>
+                            <button class="btn-liquid liquid-glass-dark px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/10 transition-all">
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="liquid-glass radius-liquid-lg p-6 md:p-8 reveal delay-100">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 md:w-7 md:h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-display text-lg md:text-xl font-semibold mb-2">Whitepaper: Graph Neural Networks in Fraud Detection</h3>
+                            <p class="text-gray-400 text-sm mb-4">Technical deep-dive into how graph intelligence revolutionizes fraud pattern detection.</p>
+                            <button class="btn-liquid liquid-glass-dark px-5 py-2 rounded-full text-sm font-semibold hover:bg-white/10 transition-all">
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section id="pricing" class="py-16 md:py-24 px-4 md:px-6 relative ">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 md:mb-16 reveal">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Simple <span class="gradient-text-cyan">Pricing</span></h2>
+                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">Scale from startup to enterprise with transparent, predictable pricing.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+                <!-- Starter -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal">
+                    <div class="mb-6">
+                        <h3 class="font-display text-xl md:text-2xl font-semibold mb-2">Starter</h3>
+                        <p class="text-gray-400 text-sm">For small businesses and startups</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl md:text-4xl font-bold">$299</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    <ul class="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Up to 10,000 transactions/month</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Basic anomaly detection</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Email alerts</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>7-day data retention</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Standard support</span>
+                        </li>
+                    </ul>
+                    <button class="w-full btn-liquid liquid-glass-dark py-3 rounded-full font-semibold hover:bg-white/10 transition-all">
+                        Get Started
+                    </button>
+                </div>
+
+                <!-- Growth -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal delay-100 relative transform md:scale-105 border-cyan-400/50">
+                    <div class="absolute -top-3 md:-top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="liquid-glass px-3 md:px-4 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-cyan-400 to-blue-500">MOST POPULAR</span>
+                    </div>
+                    <div class="mb-6">
+                        <h3 class="font-display text-xl md:text-2xl font-semibold mb-2">Growth</h3>
+                        <p class="text-gray-400 text-sm">For scaling companies</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl md:text-4xl font-bold gradient-text-cyan">$999</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    <ul class="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Up to 100,000 transactions/month</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-can-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Advanced AI models</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Real-time alerts + SMS</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>1-year data retention</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Priority support</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>API access</span>
+                        </li>
+                    </ul>
+                    <button class="w-full btn-liquid liquid-glass py-3 rounded-full font-semibold glow-cyan">
+                        Start Free Trial
+                    </button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="liquid-glass radius-liquid-xl p-6 md:p-8 glass-card reveal delay-200">
+                    <div class="mb-6">
+                        <h3 class="font-display text-xl md:text-2xl font-semibold mb-2">Enterprise</h3>
+                        <p class="text-gray-400 text-sm">For large organizations</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl md:text-4xl font-bold">Custom</span>
+                    </div>
+                    <ul class="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Unlimited transactions</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Custom AI model training</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Dedicated infrastructure</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>Unlimited data retention</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>24/7 dedicated support</span>
+                        </li>
+                        <li class="flex items-center space-x-3 text-sm">
+                            <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>SLA guarantees</span>
+                        </li>
+                    </ul>
+                    <button class="w-full btn-liquid liquid-glass-dark py-3 rounded-full font-semibold hover:bg-white/10 transition-all">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPANY SECTION -->
+    <section id="company" class="py-16 md:py-24 px-4 md:px-6 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Our <span class="gradient-text">Mission</span></h2>
+                    <p class="text-lg md:text-xl text-gray-300 mb-6 leading-relaxed">
+                        To protect global financial systems through invisible intelligence. We believe every transaction should be secure by default, every pattern should reveal its truth, and every business deserves access to enterprise-grade fraud protection.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Innovation</h4>
+                                <p class="text-sm text-gray-400">Pushing the boundaries of AI and financial intelligence</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-500 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Security</h4>
+                                <p class="text-sm text-gray-400">Uncompromising protection for sensitive financial data</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Trust</h4>
+                                <p class="text-sm text-gray-400">Building lasting relationships through transparency</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative reveal delay-200">
+                    <div class="liquid-glass radius-liquid-xl p-6 md:p-8">
+                        <div class="grid grid-cols-2 gap-4 md:gap-6 mb-6">
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold gradient-text mb-2">2024</div>
+                                <div class="text-sm text-gray-400">Founded</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold gradient-text-cyan mb-2">50+</div>
+                                <div class="text-sm text-gray-400">Team Members</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold text-green-400 mb-2">$2.3B</div>
+                                <div class="text-sm text-gray-400">Protected Daily</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl md:text-4xl font-bold text-purple-400 mb-2">15+</div>
+                                <div class="text-sm text-gray-400">Countries</div>
+                            </div>
+                        </div>
+
+                        <!-- Careers CTA -->
+                        <div class="liquid-glass-dark radius-liquid p-4 md:p-6">
+                            <h4 class="font-display text-lg font-semibold mb-2">Join Our Team</h4>
+                            <p class="text-gray-400 text-sm mb-4">We're looking for brilliant minds to help build the future of financial security.</p>
+                            <a href="#" class="btn-liquid liquid-glass px-5 py-2 rounded-full text-sm font-semibold inline-flex items-center space-x-2">
+                                <span>View Open Positions</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-16 md:py-24 px-4 md:px-6 relative ">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 md:gap-16">
+                <div class="reveal">
+                    <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Request a <span class="gradient-text-cyan">Demo</span></h2>
+                    <p class="text-lg text-gray-400 mb-8">See Florynx AI in action. Our team will walk you through the platform and answer any questions.</p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Email Us</h4>
+                                <a href="mailto:hello@florynx.ai" class="text-cyan-400 hover:text-cyan-300 transition-colors">hello@florynx.ai</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Call Us</h4>
+                                <a href="tel:+1-888-FLOWRYNX" class="text-purple-400 hover:text-purple-300 transition-colors">+1-888-FLOWRYNX</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold">Headquarters</h4>
+                                <p class="text-gray-400">San Francisco, CA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="reveal delay-200">
+                    <form id="contact-form" class="liquid-glass radius-liquid-xl p-6 md:p-8 space-y-6">
+                        <div class="grid sm:grid-cols-2 gap-4 md:gap-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">First Name</label>
+                                <input type="text" class="form-input w-full" placeholder="John" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Last Name</label>
+                                <input type="text" class="form-input w-full" placeholder="Doe" required>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Work Email</label>
+                            <input type="email" class="form-input w-full" placeholder="john@company.com" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Company</label>
+                            <input type="text" class="form-input w-full" placeholder="Company Name">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Company Size</label>
+                            <select class="form-input w-full">
+                                <option value="">Select company size</option>
+                                <option value="1-10">1-10 employees</option>
+                                <option value="11-50">11-50 employees</option>
+                                <option value="51-200">51-200 employees</option>
+                                <option value="201-500">201-500 employees</option>
+                                <option value="500+">500+ employees</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium mb-2">How can we help?</label>
+                            <textarea class="form-input w-full h-32 resize-none" placeholder="Tell us about your fraud detection needs..."></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full btn-liquid liquid-glass py-4 rounded-full font-semibold text-lg glow-cyan">
+                            Request Demo
+                        </button>
+
+                        <p class="text-xs text-gray-500 text-center">By submitting, you agree to our Privacy Policy and Terms of Service.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 md:py-16 px-4 md:px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 mb-12">
+                <!-- Brand -->
+                <div class="col-span-2 md:col-span-4 lg:col-span-1">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <span class="font-display font-bold text-xl">Florynx<span class="gradient-text-cyan"> AI</span></span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">The invisible intelligence layer that protects global financial systems.</p>
+
+                    <!-- Social Icons -->
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center hover:bg-white/20 transition-all" aria-label="Twitter">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center hover:bg-white/20 transition-all" aria-label="LinkedIn">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center hover:bg-white/20 transition-all" aria-label="GitHub">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full liquid-glass flex items-center justify-center hover:bg-white/20 transition-all" aria-label="YouTube">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product -->
+                <div>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#platform" class="hover:text-white transition-colors">Platform</a></li>
+                        <li><a href="#solutions" class="hover:text-white transition-colors">Solutions</a></li>
+                        <li><a href="#technology" class="hover:text-white transition-colors">Technology</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">API Docs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#company" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Partners</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#insights" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Case Studies</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Whitepapers</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Webinars</a></li>
+                        <li><a href="#security" class="hover:text-white transition-colors">Security</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal -->
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">GDPR</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-gray-500">2024 Florynx AI. All rights reserved.</p>
+                <div class="flex items-center space-x-2 text-sm text-gray-500">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span>All systems operational</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize variables first
+        let scene, camera, renderer, particles;
+        let mouseX = 0, mouseY = 0;
+        let safeCount = 1247;
+        let flaggedCount = 3;
+        let simulationInterval = null;
+        
+        // Transaction data
+        const transactionTypes = ['Wire Transfer', 'ACH Payment', 'Card Transaction', 'SEPA Transfer', 'Crypto Exchange'];
+        const currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CHF'];
+        const riskLevels = ['low', 'medium', 'high'];
+        
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        // Three.js Background
+        function initThreeJS() {
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+            
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            
+            // Create particles
+            const particleCount = prefersReducedMotion ? 500 : 1500;
+            const geometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3);
+            const colors = new Float32Array(particleCount * 3);
+            
+            const colorPalette = [
+                { r: 0, g: 0.82, b: 1 },      // Cyan
+                { r: 0.4, g: 0.29, b: 0.64 }, // Purple
+                { r: 0.29, g: 0.48, b: 0.84 } // Blue
+            ];
+            
+            for (let i = 0; i < particleCount; i++) {
+                positions[i * 3] = (Math.random() - 0.5) * 100;
+                positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
+                positions[i * 3 + 2] = (Math.random() - 0.5) * 100;
+                
+                const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
+                colors[i * 3] = color.r;
+                colors[i * 3 + 1] = color.g;
+                colors[i * 3 + 2] = color.b;
+            }
+            
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            
+            const material = new THREE.PointsMaterial({
+                size: 0.5,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+            
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+            
+            camera.position.z = 50;
+            
+            // Mouse move handler
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            // Resize handler
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+            
+            animate();
+        }
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            if (particles && !prefersReducedMotion) {
+                particles.rotation.x += 0.0003;
+                particles.rotation.y += 0.0005;
+                
+                // Mouse interaction
+                particles.rotation.x += mouseY * 0.0005;
+                particles.rotation.y += mouseX * 0.0005;
+            }
+            
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+        
+        // Transaction Simulation
+        function generateTransaction() {
+            const isAnomaly = Math.random() < 0.08;
+            const type = transactionTypes[Math.floor(Math.random() * transactionTypes.length)];
+            const currency = currencies[Math.floor(Math.random() * currencies.length)];
+            const amount = isAnomaly ? 
+                (Math.random() * 500000 + 100000).toFixed(2) : 
+                (Math.random() * 50000 + 100).toFixed(2);
+            
+            let risk, riskColor, riskBg;
+            if (isAnomaly) {
+                const riskIndex = Math.random() < 0.3 ? 2 : 1;
+                risk = riskLevels[riskIndex];
+                riskColor = risk === 'high' ? 'text-red-400' : 'text-orange-400';
+                riskBg = risk === 'high' ? 'bg-red-500/20' : 'bg-orange-500/20';
+            } else {
+                risk = 'low';
+                riskColor = 'text-green-400';
+                riskBg = 'bg-green-500/20';
+            }
+            
+            return {
+                id: 'TXN-' + Math.random().toString(36).substr(2, 8).toUpperCase(),
+                type,
+                amount,
+                currency,
+                risk,
+                riskColor,
+                riskBg,
+                timestamp: new Date().toLocaleTimeString()
+            };
+        }
+        
+        function renderTransaction(tx) {
+            const stream = document.getElementById('transaction-stream');
+            if (!stream) return;
+            
+            const div = document.createElement('div');
+            div.className = `transaction-item liquid-glass-dark radius-liquid p-3 ${tx.risk === 'high' ? 'border border-red-500/50' : ''}`;
+            div.innerHTML = `
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-mono text-gray-400">${tx.id}</span>
+                    <span class="text-xs ${tx.riskColor} ${tx.riskBg} px-2 py-0.5 rounded-full">${tx.risk.toUpperCase()}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm">${tx.type}</span>
+                    <span class="font-semibold ${tx.riskColor}">${tx.currency} ${parseFloat(tx.amount).toLocaleString()}</span>
+                </div>
+            `;
+            
+            stream.insertBefore(div, stream.firstChild);
+            
+            // Keep only last 8 transactions
+            while (stream.children.length > 8) {
+                stream.removeChild(stream.lastChild);
+            }
+            
+            // Update counters
+            if (tx.risk === 'low') {
+                safeCount++;
+            } else {
+                flaggedCount++;
+            }
+            
+            const safeEl = document.getElementById('safe-count');
+            const flaggedEl = document.getElementById('flagged-count');
+            if (safeEl) safeEl.textContent = safeCount.toLocaleString();
+            if (flaggedEl) flaggedEl.textContent = flaggedCount;
+        }
+        
+        function simulateDemo() {
+            // Clear existing interval
+            if (simulationInterval) {
+                clearInterval(simulationInterval);
+            }
+            
+            // Generate initial transactions
+            const stream = document.getElementById('transaction-stream');
+            if (stream) stream.innerHTML = '';
+            
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    renderTransaction(generateTransaction());
+                }, i * 100);
+            }
+            
+            // Continue generating
+            simulationInterval = setInterval(() => {
+                renderTransaction(generateTransaction());
+            }, prefersReducedMotion ? 3000 : 1500);
+        }
+        
+        // Scroll Reveal
+        function initScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            
+            reveals.forEach(el => observer.observe(el));
+        }
+        
+        // Mobile Menu
+        function initMobileMenu() {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const closeBtn = document.getElementById('close-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const links = document.querySelectorAll('.mobile-nav-link');
+            
+            if (menuBtn && menu) {
+                menuBtn.addEventListener('click', () => {
+                    menu.classList.add('open');
+                });
+            }
+            
+            if (closeBtn && menu) {
+                closeBtn.addEventListener('click', () => {
+                    menu.classList.remove('open');
+                });
+            }
+            
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (menu) menu.classList.remove('open');
+                });
+            });
+        }
+        
+        // Navbar Scroll Effect
+        function initNavbarScroll() {
+            const navbar = document.getElementById('navbar');
+            if (!navbar) return;
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('py-2');
+                    navbar.classList.remove('py-4');
+                } else {
+                    navbar.classList.add('py-4');
+                    navbar.classList.remove('py-2');
+                }
+            });
+        }
+        
+        // Form Submission
+        function initForm() {
+            const form = document.getElementById('contact-form');
+            if (!form) return;
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Show success message
+                const btn = form.querySelector('button[type="submit"]');
+                if (btn) {
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<span class="text-green-400">Demo Requested!</span>';
+                    btn.disabled = true;
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                        form.reset();
+                    }, 3000);
+                }
+            });
+        }
+        
+        // Animate Stats on Scroll
+        function initStatsAnimation() {
+            const accuracyBar = document.getElementById('accuracy-bar');
+            if (!accuracyBar) return;
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        accuracyBar.style.width = '99.7%';
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            observer.observe(accuracyBar);
+        }
+        
+        // Smooth Scroll for anchor links
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+        
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initThreeJS();
+            initScrollReveal();
+            initMobileMenu();
+            initNavbarScroll();
+            initForm();
+            initStatsAnimation();
+            initSmoothScroll();
+            
+            // Start transaction simulation
+            setTimeout(simulateDemo, 1000);
+        });// Initialize variables first
+
+    </script>
+</body>
+</html>
